@@ -8,7 +8,7 @@ import torch
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import MultiStepLR
 
-from ssd import MatchPrior, SSD
+from model import MatchPrior, SSD
 from multibox_loss import MultiboxLoss
 from config import *
 from data_transform import TrainAugmentation, TestTransform
