@@ -10,15 +10,7 @@ from model import SSD, Predictor
 from utils.utils import get_image, count_number_per_class, draw_boxes
 from cameras import cameras
 from tornado import httpclient
-http_client = httpclient.HTTPClient()
 
-stop_sleep = False
-id_cameras = [
-    {
-        'name': 'Choose camera',
-        'id_camera': ''
-    }
-] + cameras
 
 def sleep_n(n):
     global stop_sleep
@@ -186,6 +178,14 @@ def UI(model, class_names):
 
 
 if __name__ == "__main__":
+    http_client = httpclient.HTTPClient()
+    stop_sleep = False
+    id_cameras = [
+        {
+            'name': 'Choose camera',
+            'id_camera': ''
+        }
+    ] + cameras
     class_names = ['BACKGROUND', 'motorcycle', 'car', 'bus', 'truck']
     model_path = './models/vgg16-ssd-Epoch-170-Loss-1.8997838258743287.pth'
     net = SSD(len(class_names), is_test=True)

@@ -52,15 +52,14 @@ def monitor_traffic(cameras):
             camera['previous_sum'] = len(boxes)
             time.sleep(15/len(cameras))
             
+if __name__ == "__main__":
+    class_names = ['BACKGROUND', 'motorcycle', 'car', 'bus', 'truck']
+    model_path = './models/vgg16-ssd-Epoch-170-Loss-1.8997838258743287.pth'
+    net = SSD(len(class_names), is_test=True)
+    net.load(model_path)
+    predictor = Predictor(net, nms_method='soft', candidate_size=200)
+    for i in cameras:
+        i.update(previous_sum =-1)
 
-
-class_names = ['BACKGROUND', 'motorcycle', 'car', 'bus', 'truck']
-model_path = './models/vgg16-ssd-Epoch-170-Loss-1.8997838258743287.pth'
-net = SSD(len(class_names), is_test=True)
-net.load(model_path)
-predictor = Predictor(net, nms_method='soft', candidate_size=200)
-for i in cameras:
-    i.update(previous_sum =-1)
-
-monitor_traffic(cameras)
+    monitor_traffic(cameras)
 
