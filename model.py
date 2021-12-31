@@ -277,7 +277,7 @@ class Predictor:
         with torch.no_grad():
             time_start = time.time()
             scores, boxes = self.net.forward(images)
-            print("Inference time: ", time.time() - time_start)
+            # print("Inference time: ", time.time() - time_start)
         boxes = boxes[0]
         scores = scores[0]
         if not prob_threshold:

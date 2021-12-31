@@ -7,21 +7,18 @@ from PIL import Image
 import io
 import pandas as pd
 from model import SSD, Predictor
+from utils.utils import get_image, count_number_per_class, draw_boxes
+from cameras import cameras
 from tornado import httpclient
 http_client = httpclient.HTTPClient()
 
 stop_sleep = False
-id_cameras = {
-    'Choose Camera': '',
-    'Vo Van Ngan - Dang Van Bi': '5d8cd542766c880017188948',
-    'Kha Van Can - Vo Van Ngan': '5d8cd653766c88001718894c',
-    'Hoang Van Thu - Tran Huy Lieu': '5d8cdb9f766c880017188968',
-    'Truong Chinh - Xuan Hong': '5d8cdb0a766c880017188964',
-    'Ly Thuong Kiet - Lac Long Quan': '5d8cdc57766c88001718896e',
-    'Truong Chinh - Tan Ky Tan Quy': '586e25e1f9fab7001111b0ae',
-    'Le Quang Dinh - No Trang Long': '5d8cd614766c88001718894a',
-    'Lac Long Quan - Au Co': '5d8cdc9d766c880017188970',
+id_cameras = [
+    {
+        'name': 'Choose camera',
+        'id_camera': ''
     }
+] + cameras
 
 def sleep_n(n):
     global stop_sleep
@@ -31,43 +28,15 @@ def sleep_n(n):
             stop_sleep = False
             break
         time.sleep(1)
-        # print(stop_sleep)
         count += 1
-
-def get_image(id_camera):
-    response = http_client.fetch("http://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id={}".format(id_camera))
-    image = Image.open(io.BytesIO(response.body))
-    image = np.array(image)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    
-    return image
 
 
 def predict(img, model, class_names, thresh, get_data=False):
     boxes, labels, probs = model.predict(img, 50, thresh)
-    for i, v in enumerate(boxes):
-        x1, y1, x2, y2 = v
-        x1 = int(x1)
-        x2 = int(x2)
-        y1 = int(y1)
-        y2 = int(y2)
-        label = f"{class_names[labels[i]][0]}: {probs[i]:.2f}"
-
-        img = cv2.rectangle(img, (x1, y1), (x2, y2), (255, 255, 0), 1)
-        img = cv2.putText(img, label, (x1, y1),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 255), 2, cv2.LINE_AA)
-    
-    data = {
-        "motorcycle": 0,
-        "car": 0,
-        "bus": 0,
-        "truck": 0
-    }
+    img = draw_boxes(img, boxes, labels, probs, class_names)
 
     if get_data:
-        for c in labels:
-            cls = class_names[int(c)]
-            data[cls] += 1
+        data = count_number_per_class(class_names, labels)
 
     return img, data
   
@@ -82,7 +51,8 @@ def change_color_and_size(img):
 
 def UI(model, class_names):
     st.set_page_config(page_title='Traffic Monitoring Application ', layout="wide")
-    st.markdown("<h1 style='text-align: center; color: white;'>Traffic Monitoring Application</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: black;'>Traffic Monitoring Application</h1>", unsafe_allow_html=True)
+    # st.title('Traffic Monitoring Application')
 
     b11, b12, b13, b14, b15, b16, b17, b18 = st.columns((1,2,1.5,0.7,0.7,0.7,0.7,0.7))
     app_mode = b11.selectbox('Mode',
@@ -126,9 +96,8 @@ def UI(model, class_names):
     elif app_mode=='Run on Live Camera':
         b21, b22 = st.columns((3,2))
         df = pd.DataFrame([[0,0,0,0]]*20, columns=['motorcycle', 'car', 'bus', 'truck'])
-        # id_camera = b12.text_input("Id Camera")
-        id_camera_selectbox = b12.selectbox('Id Camera', id_cameras.keys())
-        id_camera = id_cameras[id_camera_selectbox]
+        id_camera_selectbox = b12.selectbox('Id Camera', [i['name'] for i in id_cameras])
+        id_camera = id_cameras[[i['name'] for i in id_cameras].index(id_camera_selectbox)]['id_camera']
         detection_confidence = b13.slider('Detection Confidence', min_value =1,max_value = 99,value = 50)
 
         threshold = detection_confidence/100
@@ -146,7 +115,6 @@ def UI(model, class_names):
         space_img = b21.empty()
         space_graph = b22.line_chart(df, height=600, use_container_width=True)
         if id_camera != '':
-            print(id_camera)
             while True:
                 img = get_image(id_camera)
                 img_pred, data = predict(img, model, class_names, threshold, get_data=True)
