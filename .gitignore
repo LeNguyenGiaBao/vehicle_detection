@@ -2,3 +2,4 @@
 __pycache__/
 utils/__pycache__/
 data/
+bot_token.py

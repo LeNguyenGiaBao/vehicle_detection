@@ -7,12 +7,11 @@ from model import SSD, Predictor
 from cameras import cameras
 from get_data import get_image
 from utils.utils import draw_boxes
-
+from bot_token import SLACK_TOKEN
 
 def send_message(img, bot_token, name_camera):
     SLACK_URL = 'https://slack.com/api/files.upload'
     CHANNEL_ID = 'C02RXEK7806'
-    SLACK_TOKEN = 'xoxb-2873554553447-2888179420290-AVX3aI5fxZ7sKefAlVBZYyKa'
     try:
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 100]
         _, encoded_image = cv2.imencode('.jpeg', img, encode_param)
@@ -21,7 +20,7 @@ def send_message(img, bot_token, name_camera):
             'file': io.BytesIO(encoded_image)
         }
         param = {
-            'token': bot_token,
+            'token': SLACK_TOKEN,
             'channels': CHANNEL_ID,
             'filename': "detected.jpeg",
             'initial_comment': "{} traffic jam!".format(name_camera),

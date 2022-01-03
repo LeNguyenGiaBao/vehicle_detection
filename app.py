@@ -105,7 +105,7 @@ def UI(model, class_names):
         b18.markdown('**Truck**')
         truck_value = b18.markdown('0')
         space_img = b21.empty()
-        space_graph = b22.line_chart(df, height=600, use_container_width=True)
+        space_graph = b22.line_chart(df, height=480, use_container_width=True)
         if id_camera != '':
             while True:
                 img = get_image(id_camera)
@@ -121,7 +121,7 @@ def UI(model, class_names):
                 df = df.iloc[1:, :]
                 df = df.append(df_new, ignore_index=True)
                 
-                space_graph.line_chart(df,  height=600, use_container_width=True)
+                space_graph.line_chart(df,  height=480, use_container_width=True)
                 sleep_n(15)
 
     
