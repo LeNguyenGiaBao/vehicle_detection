@@ -44,7 +44,6 @@ def change_color_and_size(img):
 def UI(model, class_names):
     st.set_page_config(page_title='Traffic Monitoring Application ', layout="wide")
     st.markdown("<h1 style='text-align: center; color: black;'>Traffic Monitoring Application</h1>", unsafe_allow_html=True)
-    # st.title('Traffic Monitoring Application')
 
     b11, b12, b13, b14, b15, b16, b17, b18 = st.columns((1,2,1.5,0.7,0.7,0.7,0.7,0.7))
     app_mode = b11.selectbox('Mode',
@@ -52,8 +51,128 @@ def UI(model, class_names):
         )
 
     if app_mode =='About Page':
-        st.markdown('**StreamLit** is to create the Web Graphical User Interface (GUI) ')
-    
+        img_result = cv2.imread('./data/result.jpg')
+        img_result = change_color_and_size(img_result)
+        img_slack = cv2.imread('./image/slack_2.png')
+        img_slack = change_color_and_size(img_slack)
+        img_live_camera = cv2.imread('./image/live_camera.png')
+        img_live_camera = change_color_and_size(img_live_camera)
+        
+        _, b21 = st.columns((1,10))
+        b21.markdown("<p style='text-align: left; color: black; font-size: 25px;'>The website is used to identify vehicles, assess and visualize traffic conditions in Ho Chi Minh City, Vietnam</p>", unsafe_allow_html=True)
+        b21.markdown("<p style='text-align: left; color: black; font-size: 20px;'>Data from <a href='http://giaothong.hochiminhcity.gov.vn' target='_blank'>Cổng Thông Tin Vận Tải Thành Phố Hồ Chí Minh </a></p>", unsafe_allow_html=True)
+        st.markdown('---')
+
+        _, b21 = st.columns((1,10))
+        b21.markdown("## Application")
+
+        _, b21, _ = st.columns((1,3,1))
+        b21.markdown('---')
+        _, b21, b22, b23, _ = st.columns((1,1,3,1,1))
+        b21.markdown("""<p style='text-align: left; color: red; font-size: 25px;'> Detect Vehicles
+        <ul>
+            <li style='text-align: left; color: black; font-size: 20px;'>From Image</li>
+            <li style='text-align: left; color: black; font-size: 20px;'>From Video</li>
+            <li style='text-align: left; color: black; font-size: 20px;'>From Live Camera</li>
+        </ul>
+        </p>""", unsafe_allow_html=True)
+        b22.image(img_result)
+
+        _, b21, _ = st.columns((1,3,1))
+        b21.markdown('---')
+        _, b21, b22, _, b23 = st.columns((1,1,3,0.2, 1.8))
+        b22.image(img_live_camera)
+        b23.markdown("""<p style='text-align: left; color: red; font-size: 25px;'> Visualize Information With Charts </p>""", unsafe_allow_html=True)
+        b23.markdown("""<p style='text-align: left; color: black; font-size: 20px;'> Using Realtime Information To Draw Charts </p>""", unsafe_allow_html=True)
+        _, b21, _ = st.columns((1,3,1))
+        b21.markdown('---')
+        _, b21, b22, b23, _ = st.columns((0.5, 1.5,3,1,1))
+        b22.image(img_slack)
+        b21.markdown("""<p style='text-align: left; color: red; font-size: 25px;'> Notifications When Traffic Jams </p>""", unsafe_allow_html=True)
+        b21.markdown("""<p style='text-align: left; color: black; font-size: 20px;'> Join Slack Channel <a href='https://app.slack.com/client/T02RPGAG9D5/C02RXEK7806'>Here</a> With Us</p>""", unsafe_allow_html=True)
+        
+        st.markdown('---')
+        _, b21 = st.columns((1,10))
+        b21.markdown("## About Us")
+        st.markdown('')
+        b31, b32, b33, b34, b35 = st.columns((1,3, 0.1,3,1))
+        b32.markdown('<p align="center"><img src="https://avatars.githubusercontent.com/u/68860804?v=4" width="300px" /></p>', unsafe_allow_html=True)
+        b32.markdown("<h2 style='text-align: center; color: black;'>Lê Nguyễn Gia Bảo</h1>", unsafe_allow_html=True)
+        b32.markdown("<h3 style='text-align: center; color: black;'>18110251</h2>", unsafe_allow_html=True)
+        b32.markdown('''
+        <p align="center">
+            <a href="https://www.linkedin.com/in/lenguyengiabao/" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/linkedin.png"/>
+            </a>
+            <a href="https://www.facebook.com/baorua.98/" alt="Facebook" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/facebook-new.png" />
+            </a> 
+            <a href="https://github.com/LeNguyenGiaBao" alt="Github" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/github.png"/>
+            </a> 
+            <a href="https://www.youtube.com/channel/UCOZbUfO_au3oxHEh4x52wvw/videos" alt="Youtube channel" target="_blank" >
+                <img src="https://img.icons8.com/fluent/48/000000/youtube-play.png"/>
+            </a>
+            <a href="https://www.kaggle.com/nguyngiabol" alt="Kaggle" target="_blank" >
+                <img src="https://img.icons8.com/windows/48/000000/kaggle.png"/>
+            </a>
+            <a href="mailto:lenguyengiabao46@gmail.com" alt="Email" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/mailing.png"/>
+            </a>
+        </p>
+        ''', unsafe_allow_html=True)
+
+        b34.markdown('<p align="center"><img src="https://scontent.fsgn13-2.fna.fbcdn.net/v/t1.6435-9/50291308_2508028652757436_5546464184155242496_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=ZZz3SZMaXYgAX-881LS&_nc_ht=scontent.fsgn13-2.fna&oh=00_AT80newat36TZg94zbZLK_df5OFmoCo-VDKx2vKGe7s9zQ&oe=61FB6199" width="300px" /></p>', unsafe_allow_html=True)
+        b34.markdown("<h2 style='text-align: center; color: black;'>Trần Trung Kiên</h1>", unsafe_allow_html=True)
+        b34.markdown("<h3 style='text-align: center; color: black;'>18110309</h2>", unsafe_allow_html=True)
+        b34.markdown('''
+        <p align="center">
+            <a href="https://www.linkedin.com/in/lenguyengiabao/" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/linkedin.png"/>
+            </a>
+            <a href="https://www.facebook.com/trantrungkien2035" alt="Facebook" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/facebook-new.png" />
+            </a> 
+            <a href="https://github.com/ttkien2035" alt="Github" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/github.png"/>
+            </a> 
+            <a href="https://www.youtube.com/channel/UCOZbUfO_au3oxHEh4x52wvw/videos" alt="Youtube channel" target="_blank" >
+                <img src="https://img.icons8.com/fluent/48/000000/youtube-play.png"/>
+            </a>
+            <a href="https://www.kaggle.com/nguyngiabol" alt="Kaggle" target="_blank" >
+                <img src="https://img.icons8.com/windows/48/000000/kaggle.png"/>
+            </a>
+            <a href="mailto:trantrungkien2035@gmail.com" alt="Email" target="_blank">
+                <img src="https://img.icons8.com/fluent/48/000000/mailing.png"/>
+            </a>
+        </p>
+        ''', unsafe_allow_html=True)
+
+        _, b21 = st.columns((1,10))
+        b21.markdown("## From ")
+        _, b21, b22 = st.columns((2,2, 7))
+        b21.markdown("<p style='text-align: center; color: black; font-size: 20px;'><img src='http://hcmute.edu.vn/Resources/Images/Logo/Logo%20HCMUTE-Corel-white%20background.jpg' width='150px' /> </p>", unsafe_allow_html=True)
+        b22.markdown('')
+        b22.markdown('')
+        b22.markdown('')
+        b22.markdown("<p style='text-align: left; color: black; font-size: 30px;'>Ho Chi Minh City University of Technology and Education</p>", unsafe_allow_html=True)
+        b22.markdown("<p style='text-align: left; color: black; font-size: 20px;'><a href='https://hcmute.edu.vn'>https://hcmute.edu.vn</a></p>", unsafe_allow_html=True)
+        st.markdown('')
+        st.markdown('')
+        _, b21, b22 = st.columns((2,2, 7))
+        b21.markdown("<p style='text-align: center; color: black; font-size: 20px;'><img src='https://fit.hcmute.edu.vn/Resources/Images/SubDomain/fit/logo-cntt2021.png' width='150px' /> </p>", unsafe_allow_html=True)
+        b22.markdown('')
+        b22.markdown("<p style='text-align: left; color: black; font-size: 30px;'>Faculty Of Information Technology</p>", unsafe_allow_html=True)
+        b22.markdown("<p style='text-align: left; color: black; font-size: 20px;'><a href='fit.hcmute.edu.vn'>https://fit.hcmute.edu.vn</a></p>", unsafe_allow_html=True)
+
+        st.markdown('')
+        st.markdown('')
+        st.markdown('')
+        st.markdown('')
+        st.markdown('')
+        st.markdown('')
+        st.markdown("<p style='text-align: center; color: black; font-size: 20px;'>Design By <a href='https://streamlit.io' target='_blank'>Streamlit</a></p>", unsafe_allow_html=True)
+
         
     elif app_mode =='Run on Image':
         img_file_buffer = b12.file_uploader("Upload an image", type=[ "jpg", "jpeg",'png'])
