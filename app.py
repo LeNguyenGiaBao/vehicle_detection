@@ -59,7 +59,7 @@ def UI(model, class_names):
         
         _, b21 = st.columns((1,10))
         b21.markdown("<p style='text-align: left; color: black; font-size: 25px;'>The website is used to identify vehicles, assess and visualize traffic conditions in Ho Chi Minh City, Vietnam</p>", unsafe_allow_html=True)
-        b21.markdown("<p style='text-align: left; color: black; font-size: 20px;'>Data from <a href='http://giaothong.hochiminhcity.gov.vn' target='_blank'>Cổng Thông Tin Vận Tải Thành Phố Hồ Chí Minh </a></p>", unsafe_allow_html=True)
+        b21.markdown("<p style='text-align: left; color: black; font-size: 20px;'>Data from <a href='http://giaothong.hochiminhcity.gov.vn' target='_blank'>Cổng Thông Tin Giao Thông Thành Phố Hồ Chí Minh </a></p>", unsafe_allow_html=True)
         st.markdown('---')
 
         _, b21 = st.columns((1,10))
