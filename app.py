@@ -10,8 +10,7 @@ from model import SSD, Predictor
 from utils.utils import get_image, count_number_per_class, draw_boxes
 from cameras import cameras
 from tornado import httpclient
-st.set_page_config(page_title='Traffic Monitoring Application ', layout="wide")
-
+st.set_page_config(page_title='Traffic Monitoring Application ',page_icon="🚗", layout="wide")
 
 def sleep_n(n):
     global stop_sleep
