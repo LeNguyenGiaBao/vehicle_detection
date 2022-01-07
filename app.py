@@ -279,7 +279,10 @@ def UI(model, class_names):
                     break
 
                 img_pred, data = predict(frame, model, class_names, threshold, get_data=True)
-                
+                moto_value.markdown(data['motorcycle'])
+                car_value.markdown(data['car'])
+                bus_value.markdown(data['bus'])
+                truck_value.markdown(data['truck'])
                 
                 if record:
                     out_video.write(img_pred)
