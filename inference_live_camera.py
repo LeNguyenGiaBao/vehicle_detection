@@ -26,6 +26,3 @@ while True:
     cv2.imwrite(data_path + '/' + current_time + '.jpg', img)
     data_file.write(current_time + ',' + id_camera + ',' + ','.join(map(str, data.values())) + '\n')
     time.sleep(15)
-
-data_file.close()
-

@@ -9,7 +9,7 @@ from get_data import get_image
 from utils.utils import draw_boxes
 from bot_token import SLACK_TOKEN
 
-def send_message(img, bot_token, name_camera):
+def send_message(img, name_camera):
     SLACK_URL = 'https://slack.com/api/files.upload'
     CHANNEL_ID = 'C02RXEK7806'
     try:
@@ -28,14 +28,14 @@ def send_message(img, bot_token, name_camera):
         }
 
         response = requests.post(SLACK_URL, params=param, files=files)
-        print(response)
+        print(name_camera, response)
         
     except Exception as e:
         print('Could not send image to Slack: {}'.format(e))
 
 
 def is_congestion(camera, sum_vehicle):
-    if camera['previous_sum'] != -1 and sum_vehicle - camera['previous_sum'] > 20 and sum_vehicle > 30:
+    if camera['previous_sum'] != -1 and sum_vehicle - camera['previous_sum'] > 2 and sum_vehicle > 5:
         return True
 
 def monitor_traffic(cameras):
@@ -46,7 +46,7 @@ def monitor_traffic(cameras):
             boxes, labels, probs = predictor.predict(img, 50, 0.3)
             if is_congestion(camera, len(boxes)):
                 img_drawed = draw_boxes(img, boxes, labels, probs, class_names)
-                send_message(img_drawed, camera['bot_token'], camera['name'])
+                send_message(img_drawed, camera['name'])
             
             camera['previous_sum'] = len(boxes)
             time.sleep(15/len(cameras))
