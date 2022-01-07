@@ -296,6 +296,14 @@ def UI(model, class_names):
                     download_button = b14.download_button('Download', f, 'output.avi', mime="video/mp4")
 
 
+@st.cache
+def load_model(model_path, class_names):
+    net = SSD(len(class_names), is_test=True)
+    net.load(model_path)
+    model = Predictor(net, nms_method='soft', candidate_size=200)
+    
+    return model
+
 if __name__ == "__main__":
     http_client = httpclient.HTTPClient()
     stop_sleep = False
@@ -307,7 +315,5 @@ if __name__ == "__main__":
     ] + cameras
     class_names = ['BACKGROUND', 'motorcycle', 'car', 'bus', 'truck']
     model_path = './models/vgg16-ssd-Epoch-170-Loss-1.8997838258743287.pth'
-    net = SSD(len(class_names), is_test=True)
-    net.load(model_path)
-    model = Predictor(net, nms_method='soft', candidate_size=200)
+    model = load_model(model_path, class_names)
     UI(model, class_names)
