@@ -42,7 +42,6 @@ def change_color_and_size(img):
 
 
 def UI(model, class_names):
-    st.set_page_config(page_title='Traffic Monitoring Application ', layout="wide")
     st.markdown("<h1 style='text-align: center; color: black;'>Traffic Monitoring Application</h1>", unsafe_allow_html=True)
 
     b11, b12, b13, b14, b15, b16, b17, b18 = st.columns((1,2,1.5,0.7,0.7,0.7,0.7,0.7))
@@ -316,4 +315,6 @@ if __name__ == "__main__":
     class_names = ['BACKGROUND', 'motorcycle', 'car', 'bus', 'truck']
     model_path = './models/vgg16-ssd-Epoch-170-Loss-1.8997838258743287.pth'
     model = load_model(model_path, class_names)
+
+    st.set_page_config(page_title='Traffic Monitoring Application ', layout="wide")
     UI(model, class_names)
