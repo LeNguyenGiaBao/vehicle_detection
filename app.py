@@ -10,6 +10,7 @@ from model import SSD, Predictor
 from utils.utils import get_image, count_number_per_class, draw_boxes
 from cameras import cameras
 from tornado import httpclient
+st.set_page_config(page_title='Traffic Monitoring Application ', layout="wide")
 
 
 def sleep_n(n):
@@ -316,5 +317,4 @@ if __name__ == "__main__":
     model_path = './models/vgg16-ssd-Epoch-170-Loss-1.8997838258743287.pth'
     model = load_model(model_path, class_names)
 
-    st.set_page_config(page_title='Traffic Monitoring Application ', layout="wide")
     UI(model, class_names)
